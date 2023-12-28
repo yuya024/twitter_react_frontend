@@ -1,13 +1,39 @@
-import { BrowserRouter as Router, Link, Route, Routes } from "react-router-dom";
+import { Link, Route, Routes, useNavigate, Outlet } from "react-router-dom";
+import { useRecoilState } from "recoil";
 import "./App.css";
 
 import { Signup } from "./components/pages/signup";
 import { EmailConfirm } from "./components/pages/EmailConfirm";
 import { Top } from "./components/pages/Top";
+import { Signin } from "./components/pages/Signin";
+import { Home } from "./components/pages/Home";
+import { useUser } from "./common/hooks/useUser";
+import { useEffect } from "react";
+import { userState } from "./common/store/userState";
 
 function App() {
+  const [user, setUser] = useRecoilState(userState);
+  const { getCurrentUser } = useUser();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const init = async () => {
+      const res = await getCurrentUser();
+      if (res && res.is_login) {
+        setUser({ is_login: true, user: res.data });
+      } else {
+        navigate("/users/sign_in", { replace: true });
+      }
+    };
+    init();
+  }, []);
+
+  const RouteLoginGuard = () => {
+    return user.is_login ? <Outlet /> : null;
+  };
+
   return (
-    <Router>
+    <>
       <header className="border-b-2 border-indigo-300">
         <div className="container flex mx-auto p-4">
           <span className="font-medium text-xl">Twitter clone</span>
@@ -29,8 +55,13 @@ function App() {
         <Route path="/" element={<Top />} />
         <Route path="/users" element={<Signup />} />
         <Route path="/users/email_confirm" element={<EmailConfirm />} />
+        <Route path="/users/sign_in" element={<Signin />} />
+
+        <Route element={<RouteLoginGuard />}>
+          <Route path="/home" element={<Home />} />
+        </Route>
       </Routes>
-    </Router>
+    </>
   );
 }
 
