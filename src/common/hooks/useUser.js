@@ -27,5 +27,11 @@ export const useUser = () => {
       });
   };
 
-  return { getCurrentUser };
+  const authHeader = {
+    uid: localStorage.getItem("uid"),
+    client: localStorage.getItem("client"),
+    "access-token": localStorage.getItem("access-token"),
+  };
+
+  return { getCurrentUser, authHeader };
 };
