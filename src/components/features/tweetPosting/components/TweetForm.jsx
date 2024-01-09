@@ -18,7 +18,7 @@ export const TweetForm = (props) => {
           placeholder="今なにしてる？"
           className="p-2 block w-full outline-none resize-none text-gray-900 ring-inset placeholder:text-gray-400 focus:ring-inset sm:text-sm sm:leading-6"
           value={textValue}
-          onChange={(e) => changeInput(e)}
+          onChange={changeInput}
         ></textarea>
 
         <div className="p-2 flex justify-between items-center text-sm leading-6 text-gray-600">
@@ -41,7 +41,7 @@ export const TweetForm = (props) => {
                 name="file-upload"
                 type="file"
                 className="sr-only"
-                onChange={(e) => changeImage(e)}
+                onChange={changeImage}
               />
             </label>
 
@@ -54,7 +54,7 @@ export const TweetForm = (props) => {
                 ? "bg-indigo-200 hover:bg-indigo-100"
                 : "bg-indigo-600 hover:bg-indigo-500"
             } rounded-md px-3 py-2 text-sm font-semibold text-white shadow-sm  focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}
-            onClick={(e) => submitForm(e)}
+            onClick={submitForm}
             disabled={submitDisabled}
           >
             ツイート
