@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 
-import { tweetCreate, tweetImage } from "../../../../common/urls";
+import { tweet, tweetImage } from "../../../../common/urls";
 import { useUser } from "../../../../common/hooks/useUser";
 
 export const useTweetPosting = () => {
@@ -50,7 +50,7 @@ export const useTweetPosting = () => {
     const { content, imageFile } = params;
 
     return axios
-      .post(tweetCreate, content, {
+      .post(tweet, content, {
         headers: authHeader,
       })
       .then((res) => {
