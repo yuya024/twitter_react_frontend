@@ -10,31 +10,18 @@ export const useTweetDisplay = () => {
 
   const tweetDateFormat = (date) => {
     date = new Date(date);
-    if (date.getMinutes() < 10) {
-      date =
-        date.getFullYear() +
-        "-" +
-        ((date.getMonth() % 12) + 1) +
-        "-" +
-        date.getDate() +
-        " " +
-        date.getHours() +
-        ":0" +
-        date.getMinutes();
-    } else {
-      date =
-        date.getFullYear() +
-        "-" +
-        ((date.getMonth() % 12) + 1) +
-        "-" +
-        date.getDate() +
-        " " +
-        date.getHours() +
-        ":" +
-        date.getMinutes();
-    }
-
-    return date;
+    const filledZero = date.getMinutes() < 10 ? "0" : "";
+    return (date =
+      date.getFullYear() +
+      "-" +
+      ((date.getMonth() % 12) + 1) +
+      "-" +
+      date.getDate() +
+      " " +
+      date.getHours() +
+      ":" +
+      filledZero +
+      date.getMinutes());
   };
 
   const getTweet = (params) => {

@@ -67,22 +67,22 @@ export const Home = () => {
       />
       <TweetList tweets={tweets} tweetDateFormat={tweetDateFormat} />
       <div className="flex justify-center my-4">
-        {paginate.previous ? (
+        {paginate.previous && (
           <p
             className="mr-6 font-bold text-gray-700 border-2 rounded-l-md border-gray-400 p-2"
             onClick={() => pageChange(paginate.previous)}
           >
             前へ
           </p>
-        ) : null}
-        {paginate.next ? (
+        )}
+        {paginate.next && (
           <p
             className=" font-bold text-gray-700 border-2 rounded-r-md border-gray-400 p-2"
             onClick={() => pageChange(paginate.next)}
           >
             次へ
           </p>
-        ) : null}
+        )}
       </div>
     </>
   );

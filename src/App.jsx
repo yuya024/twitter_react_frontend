@@ -35,7 +35,7 @@ function App() {
 
   return (
     <>
-      {user.is_login ? null : (
+      {!user.is_login && (
         <header className="border-b-2 border-indigo-300">
           <div className="container flex mx-auto p-4">
             <span className="font-medium text-xl">Twitter clone</span>
