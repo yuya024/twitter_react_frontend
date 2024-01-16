@@ -10,18 +10,18 @@ export const TweetForm = (props) => {
 
   return (
     <form>
-      <div className="mt-12 w-1/2 border rounded m-auto">
+      <div className="mt-12 border-y rounded m-auto py-4 px-6">
         <textarea
           id="about"
           name="about"
           rows="3"
           placeholder="今なにしてる？"
-          className="p-2 block w-full outline-none resize-none text-gray-900 ring-inset placeholder:text-gray-400 focus:ring-inset sm:text-sm sm:leading-6"
+          className="p-2 rounded block w-full outline-none resize-none text-gray-900 ring-inset placeholder:text-gray-400 focus:ring-inset sm:text-sm sm:leading-6"
           value={textValue}
           onChange={changeInput}
         ></textarea>
 
-        <div className="p-2 flex justify-between items-center text-sm leading-6 text-gray-600">
+        <div className="pt-2 px-2 flex justify-between items-center text-sm leading-6 text-gray-600">
           <div className="flex">
             <label
               htmlFor="file-upload"

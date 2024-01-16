@@ -10,6 +10,7 @@ import { Home } from "./components/pages/Home";
 import { useUser } from "./common/hooks/useUser";
 import { useEffect } from "react";
 import { userState } from "./common/store/userState";
+import { Layout } from "./components/pages/Layout";
 
 function App() {
   const [user, setUser] = useRecoilState(userState);
@@ -34,22 +35,24 @@ function App() {
 
   return (
     <>
-      <header className="border-b-2 border-indigo-300">
-        <div className="container flex mx-auto p-4">
-          <span className="font-medium text-xl">Twitter clone</span>
-          <nav className="ml-auto">
-            <Link
-              to="/users/sign_in"
-              className="mr-5 hover:text-blue-200 duration-200"
-            >
-              ログイン
-            </Link>
-            <Link to="/users" className="hover:text-blue-200 duration-200">
-              新規登録
-            </Link>
-          </nav>
-        </div>
-      </header>
+      {!user.is_login && (
+        <header className="border-b-2 border-indigo-300">
+          <div className="container flex mx-auto p-4">
+            <span className="font-medium text-xl">Twitter clone</span>
+            <nav className="ml-auto">
+              <Link
+                to="/users/sign_in"
+                className="mr-5 hover:text-blue-200 duration-200"
+              >
+                ログイン
+              </Link>
+              <Link to="/users" className="hover:text-blue-200 duration-200">
+                新規登録
+              </Link>
+            </nav>
+          </div>
+        </header>
+      )}
 
       <Routes>
         <Route path="/" element={<Top />} />
@@ -58,7 +61,9 @@ function App() {
         <Route path="/users/sign_in" element={<Signin />} />
 
         <Route element={<RouteLoginGuard />}>
-          <Route path="/home" element={<Home />} />
+          <Route element={<Layout />}>
+            <Route path="/home" element={<Home />} />
+          </Route>
         </Route>
       </Routes>
     </>
