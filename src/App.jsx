@@ -11,6 +11,7 @@ import { useUser } from "./common/hooks/useUser";
 import { useEffect } from "react";
 import { userState } from "./common/store/userState";
 import { Layout } from "./components/pages/Layout";
+import { TweetDetail } from "./components/pages/TweetDetail";
 
 function App() {
   const [user, setUser] = useRecoilState(userState);
@@ -63,6 +64,9 @@ function App() {
         <Route element={<RouteLoginGuard />}>
           <Route element={<Layout />}>
             <Route path="/home" element={<Home />} />
+            <Route path="/tweets">
+              <Route path=":id" element={<TweetDetail />} />
+            </Route>
           </Route>
         </Route>
       </Routes>
