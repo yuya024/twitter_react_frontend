@@ -12,6 +12,7 @@ import { useEffect } from "react";
 import { userState } from "./common/store/userState";
 import { Layout } from "./components/pages/Layout";
 import { TweetDetail } from "./components/pages/TweetDetail";
+import { Profile } from "./components/pages/Profile";
 
 function App() {
   const [user, setUser] = useRecoilState(userState);
@@ -66,6 +67,9 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/tweets">
               <Route path=":id" element={<TweetDetail />} />
+            </Route>
+            <Route path="/users">
+              <Route path=":id" element={<Profile />} />
             </Route>
           </Route>
         </Route>
