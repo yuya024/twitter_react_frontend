@@ -1,8 +1,9 @@
 import { useRecoilValue } from "recoil";
 import { userState } from "../store/userState";
+import { Link } from "react-router-dom";
 
 export const SideNavigation = () => {
-  const user = useRecoilValue(userState);
+  const { user } = useRecoilValue(userState);
 
   return (
     <div className="h-screen sticky top-0 py-4 px-12 border-r-2">
@@ -62,7 +63,7 @@ export const SideNavigation = () => {
             <div className="text-lg  ml-6">ブックマーク</div>
           </div>
         </a>
-        <a href="#" className="mb-4">
+        <Link to={`/users/${user.id}`} className="mb-4">
           <div className="flex items-center">
             <div>
               <svg viewBox="0 0 24 24" aria-hidden="true" className="h-10">
@@ -73,7 +74,7 @@ export const SideNavigation = () => {
             </div>
             <div className="text-lg  ml-6">プロフィール</div>
           </div>
-        </a>
+        </Link>
         <a href="#" className="mb-4">
           <div className="flex items-center">
             <div>
@@ -101,10 +102,10 @@ export const SideNavigation = () => {
         <div>
           <img
             className="w-10 h-10 rounded-full"
-            src={user.user.profile_image_url}
+            src={user.profile_image_url}
           />
         </div>
-        <div className="font-bold text-lg ml-4">{user.user.name}</div>
+        <div className="font-bold text-lg ml-4">{user.name}</div>
       </div>
     </div>
   );
