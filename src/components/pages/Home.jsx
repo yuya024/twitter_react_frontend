@@ -5,6 +5,7 @@ import { useTweetPosting } from "../features/tweetPosting/hooks/useTweetPosting"
 import { TweetForm } from "../features/tweetPosting/components/TweetForm";
 import { useTweetDisplay } from "../features/displayTweet/hooks/useTweetDisplay";
 import { TweetList } from "../features/displayTweet/components/TweetList";
+import { Pagination } from "../../common/components/Pagination";
 
 export const Home = () => {
   const {
@@ -66,24 +67,8 @@ export const Home = () => {
         submitForm={submitForm}
       />
       <TweetList tweets={tweets} tweetDateFormat={tweetDateFormat} />
-      <div className="flex justify-center my-4">
-        {paginate.previous && (
-          <p
-            className="mr-6 font-bold text-gray-700 border-2 rounded-l-md border-gray-400 p-2"
-            onClick={() => pageChange(paginate.previous)}
-          >
-            前へ
-          </p>
-        )}
-        {paginate.next && (
-          <p
-            className=" font-bold text-gray-700 border-2 rounded-r-md border-gray-400 p-2"
-            onClick={() => pageChange(paginate.next)}
-          >
-            次へ
-          </p>
-        )}
-      </div>
+
+      <Pagination paginate={paginate} pageChange={pageChange} />
     </>
   );
 };

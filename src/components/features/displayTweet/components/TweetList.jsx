@@ -10,10 +10,12 @@ export const TweetList = (props) => {
           <Link to={`/tweets/${tweet.id}`} key={tweet.id}>
             <div className="grid grid-cols-8 border-b py-2">
               <div className="col-span-1 mx-auto pt-2">
-                <img
-                  src={tweet.user.profile_image_url}
-                  className="rounded-full w-10 h-10"
-                ></img>
+                <Link to={`/users/${tweet.user_id}`}>
+                  <img
+                    src={tweet.user.profile_image_url}
+                    className="rounded-full w-10 h-10"
+                  ></img>
+                </Link>
               </div>
 
               <div className="col-span-7">
