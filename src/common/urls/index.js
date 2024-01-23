@@ -8,3 +8,4 @@ export const tweet = `${DEFAULT_API_LOCALHOST}/tweets`;
 export const tweetImage = `${DEFAULT_API_LOCALHOST}/images`;
 export const user = `${DEFAULT_API_LOCALHOST}/users`;
 export const profile = `${DEFAULT_API_LOCALHOST}/profile`;
+export const comment = `${DEFAULT_API_LOCALHOST}/comments`;
