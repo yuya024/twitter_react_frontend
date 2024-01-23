@@ -1,11 +1,17 @@
 import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import ReactModal from "react-modal";
+import { useNavigate } from "react-router-dom";
 
 import { useTweetPosting } from "../features/tweetPosting/hooks/useTweetPosting";
 import { TweetForm } from "../features/tweetPosting/components/TweetForm";
 import { useTweetDisplay } from "../features/displayTweet/hooks/useTweetDisplay";
 import { TweetList } from "../features/displayTweet/components/TweetList";
 import { Pagination } from "../../common/components/Pagination";
+import { useRecoilValue } from "recoil";
+import { userState } from "../../common/store/userState";
+import { usePostingComment } from "../features/postingComment/hooks/usePostingComment";
+import { CommentModal } from "../features/postingComment/components/CommentModal";
 
 export const Home = () => {
   const {
@@ -21,6 +27,33 @@ export const Home = () => {
 
   const { tweets, setTweets, tweetDateFormat, getTweet } = useTweetDisplay();
   const [paginate, setPaginate] = useState({});
+  const [isCommentOpen, setIsCommentOpen] = useState(false);
+  const session = useRecoilValue(userState);
+  const navigate = useNavigate();
+  const {
+    commentValue,
+    setCommentValue,
+    replyToTweet,
+    setReplyToTweet,
+    changeComment,
+    createCommentParams,
+    postComment,
+  } = usePostingComment();
+
+  ReactModal.setAppElement("#root");
+  const customStyles = {
+    content: {
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      padding: "0px",
+      transform: "translate(-50%, -50%)",
+      width: "600px",
+      maxWidth: "600px",
+    },
+  };
 
   useEffect(() => {
     init();
@@ -53,11 +86,56 @@ export const Home = () => {
     init(targetPage);
   };
 
+  const redirectProfile = (e, target) => {
+    e.preventDefault();
+    navigate(target);
+  };
+
+  const openCommentModal = (e, commetTweetId) => {
+    e.preventDefault();
+    setReplyToTweet(...tweets.filter((tweet) => tweet.id === commetTweetId));
+    setIsCommentOpen(true);
+  };
+
+  const closeCommentModal = () => {
+    setIsCommentOpen(false);
+    setReplyToTweet(null);
+    setCommentValue("");
+  };
+
+  const submitComment = async (e) => {
+    e.preventDefault();
+    const params = createCommentParams();
+    try {
+      const res = await postComment(params);
+      setTweets(res.data);
+      setPaginate(res.pagination);
+      closeCommentModal();
+      toast.success("コメントを投稿しました");
+    } catch (e) {
+      toast.error("コメントの投稿に失敗しました");
+      console.log(e);
+    }
+  };
+
   return (
     <>
       <div>
         <Toaster />
       </div>
+
+      <ReactModal isOpen={isCommentOpen} style={customStyles}>
+        <CommentModal
+          replyToTweet={replyToTweet}
+          session={session}
+          commentValue={commentValue}
+          closeCommentModal={closeCommentModal}
+          tweetDateFormat={tweetDateFormat}
+          changeComment={changeComment}
+          submitComment={submitComment}
+        />
+      </ReactModal>
+
       <TweetForm
         textValue={textValue}
         image={image}
@@ -66,7 +144,13 @@ export const Home = () => {
         submitDisabled={submitDisabled}
         submitForm={submitForm}
       />
-      <TweetList tweets={tweets} tweetDateFormat={tweetDateFormat} />
+
+      <TweetList
+        tweets={tweets}
+        tweetDateFormat={tweetDateFormat}
+        openCommentModal={openCommentModal}
+        redirectProfile={redirectProfile}
+      />
 
       <Pagination paginate={paginate} pageChange={pageChange} />
     </>
