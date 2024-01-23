@@ -12,6 +12,8 @@ import { MyTweetList } from "../features/Profile/components/myTweetList";
 import { ProfileItems } from "../features/Profile/components/ProfileItems";
 import { ProfileHeader } from "../features/Profile/components/ProfileHeader";
 import { ProfileModal } from "../features/Profile/components/ProfileModal";
+import { useDeleteTweet } from "../features/deleteTweet/hooks/useDeleteTweet";
+import { DeleteTweetModal } from "../features/deleteTweet/components/DeleteTweetModal";
 
 export const Profile = () => {
   const { id } = useParams();
@@ -22,6 +24,7 @@ export const Profile = () => {
   const [tweets, setTweets] = useState([]);
   const [paginate, setPaginate] = useState({});
   const [isOpen, setIsOpen] = useState(false);
+  const [isTweetDeleteOpen, setIsTweetDeleteOpen] = useState(false);
   const {
     editProfile,
     setEditProfile,
@@ -35,6 +38,7 @@ export const Profile = () => {
     updateProfile,
   } = useProfile();
   const { tweetDateFormat } = useTweetDisplay();
+  const { deleteTweetId, setDeleteTweetId, putDeleteTweet } = useDeleteTweet();
 
   useEffect(() => {
     init();
@@ -70,6 +74,16 @@ export const Profile = () => {
     setEditProfile({});
   };
 
+  const openTweetDeleteModal = (tweet_id) => {
+    setIsTweetDeleteOpen(true);
+    setDeleteTweetId(tweet_id);
+  };
+
+  const closeTweetDeleteModal = () => {
+    setIsTweetDeleteOpen(false);
+    setDeleteTweetId(null);
+  };
+
   ReactModal.setAppElement("#root");
   const customStyles = {
     content: {
@@ -80,8 +94,8 @@ export const Profile = () => {
       marginRight: "-50%",
       padding: "0px",
       transform: "translate(-50%, -50%)",
-      width: "600px",
-      height: "650px",
+      width: `{$isOpen ? "600px" : "300px"}`,
+      height: `{$isOpen ? "650px" : "320px}`,
     },
   };
 
@@ -93,6 +107,18 @@ export const Profile = () => {
       setUser(res.data);
       setIsOpen(false);
       setEditProfile({});
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const deleteTweet = async () => {
+    try {
+      const res = await putDeleteTweet(deleteTweetId);
+      setTweets(res.tweets);
+      setPaginate(res.pagination);
+      setDeleteTweetId(null);
+      setIsTweetDeleteOpen(false);
     } catch (e) {
       console.log(e);
     }
@@ -112,6 +138,13 @@ export const Profile = () => {
               changeEditProfile={changeEditProfile}
               birthdateForm={birthdateForm}
               submitProfile={submitProfile}
+            />
+          </ReactModal>
+
+          <ReactModal isOpen={isTweetDeleteOpen} style={customStyles}>
+            <DeleteTweetModal
+              closeTweetDeleteModal={closeTweetDeleteModal}
+              deleteTweet={deleteTweet}
             />
           </ReactModal>
 
@@ -135,6 +168,7 @@ export const Profile = () => {
             user={user}
             tweets={tweets}
             tweetDateFormat={tweetDateFormat}
+            openTweetDeleteModal={openTweetDeleteModal}
           />
 
           <Pagination paginate={paginate} pageChange={pageChange} />

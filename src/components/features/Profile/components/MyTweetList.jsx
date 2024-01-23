@@ -1,5 +1,5 @@
 export const MyTweetList = (props) => {
-  const { user, tweets, tweetDateFormat } = props;
+  const { user, tweets, tweetDateFormat, openTweetDeleteModal } = props;
 
   return (
     <>
@@ -14,10 +14,22 @@ export const MyTweetList = (props) => {
             </div>
 
             <div className="col-span-7">
-              <div className="flex">
-                <p className="mr-4 font-bold">{user.name}</p>
-                <p className="text-gray-600">
+              <div className="flex items-center">
+                <p className="mr-4 font-bold flex-none">{user.name}</p>
+                <p className="text-gray-600 grow">
                   {tweetDateFormat(tweet.created_at)}
+                </p>
+                <p>
+                  <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                    className="w-5 h-5 flex-none mr-3"
+                    onClick={() => openTweetDeleteModal(tweet.id)}
+                  >
+                    <g>
+                      <path d="M3 12c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2zm9 2c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm7 0c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"></path>
+                    </g>
+                  </svg>
                 </p>
               </div>
               <div className="px-2 w-3/4">
