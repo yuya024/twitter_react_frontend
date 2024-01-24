@@ -27,7 +27,7 @@ export const useTweetDetail = () => {
   const getTweetDetail = (params) => {
     const { tweet_id, page } = params;
     return axios
-      .get(`${tweet}/${tweet_id}/comments?page=${page ? page : 1}`, {
+      .get(`${tweet}/${tweet_id}/comments?page=${page ?? 1}`, {
         headers: authHeader,
       })
       .then((res) => {
