@@ -17,9 +17,17 @@ export const useTweetDetail = () => {
     }月${date.getDate()}日`;
   };
 
+  const commentDateFormat = (jsonDate) => {
+    const date = new Date(jsonDate);
+    return `${date.getFullYear()}/${
+      (date.getMonth() % 12) + 1
+    }/${date.getDate()}`;
+  };
+
   const getTweetDetail = (params) => {
+    const { tweet_id, page } = params;
     return axios
-      .get(`${tweet}/${params}`, {
+      .get(`${tweet}/${tweet_id}/comments?page=${page ?? 1}`, {
         headers: authHeader,
       })
       .then((res) => {
@@ -31,5 +39,5 @@ export const useTweetDetail = () => {
       });
   };
 
-  return { getTweetDetail, tweetDetailDateFormat };
+  return { getTweetDetail, tweetDetailDateFormat, commentDateFormat };
 };

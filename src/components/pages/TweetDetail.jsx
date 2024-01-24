@@ -4,29 +4,41 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useTweetDetail } from "../features/tweetDetail/hooks/useTweetDetail";
 import { TweetDetailItem } from "../features/tweetDetail/components/TweetDetailItem";
 import { Loading } from "../../common/components/Loading";
+import { Pagination } from "../../common/components/Pagination";
+import { TweetDetailComment } from "../features/tweetDetail/components/TweetDetailComment";
 
 export const TweetDetail = () => {
   const { id } = useParams();
-  const { tweetDetailDateFormat, getTweetDetail } = useTweetDetail();
+  const { tweetDetailDateFormat, commentDateFormat, getTweetDetail } =
+    useTweetDetail();
   const [tweet, setTweet] = useState({});
+  const [comments, setComments] = useState({});
+  const [paginate, setPaginate] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const init = async () => {
-      try {
-        const res = await getTweetDetail(id);
-        setTweet(res.data);
-        setIsLoading(false);
-      } catch (e) {
-        console.log("データを取得できません");
-      }
-    };
     init();
   }, []);
 
+  const init = async (page) => {
+    try {
+      const res = await getTweetDetail({ tweet_id: id, page: page });
+      setTweet(res.tweet);
+      setComments(res.comments);
+      setPaginate(res.pagination);
+      setIsLoading(false);
+    } catch (e) {
+      console.log("データを取得できません");
+    }
+  };
+
   const goBack = () => {
     navigate(-1);
+  };
+
+  const pageChange = (targetPage) => {
+    init(targetPage);
   };
 
   return (
@@ -57,6 +69,16 @@ export const TweetDetail = () => {
             tweet={tweet}
             tweetDetailDateFormat={tweetDetailDateFormat}
           />
+
+          {comments && (
+            <div className="mt-8 border-t">
+              <TweetDetailComment
+                comments={comments}
+                commentDateFormat={commentDateFormat}
+              />
+              <Pagination paginate={paginate} pageChange={pageChange} />
+            </div>
+          )}
         </>
       )}
     </>
