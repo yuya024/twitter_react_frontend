@@ -48,11 +48,19 @@ export const useProfile = () => {
   };
 
   const getProfile = (params) => {
-    const { id, page } = params;
+    const { id, page, isComment } = params;
+    const body = {
+      ...(page ? { page: page } : { page: 1 }),
+      ...(isComment ? { is_comment: isComment } : {}),
+    };
     return axios
-      .get(`${user}/${id}?page=${page ? page : 1}`, {
-        headers: authHeader,
-      })
+      .get(
+        `${user}/${id}`,
+        { params: body },
+        {
+          headers: authHeader,
+        }
+      )
       .then((res) => {
         return res.data;
       })
