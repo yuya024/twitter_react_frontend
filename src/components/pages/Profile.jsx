@@ -148,9 +148,7 @@ export const Profile = () => {
   };
 
   const fetchPost = (e) => {
-    e.target.getAttribute("name") === "comment"
-      ? setIsComment(true)
-      : setIsComment(false);
+    setIsComment(e.target.getAttribute("name") === "comment");
     setIsLoading(true);
   };
 
