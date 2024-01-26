@@ -14,6 +14,10 @@ import { ProfileHeader } from "../features/Profile/components/ProfileHeader";
 import { ProfileModal } from "../features/Profile/components/ProfileModal";
 import { useDeleteTweet } from "../features/deleteTweet/hooks/useDeleteTweet";
 import { DeleteTweetModal } from "../features/deleteTweet/components/DeleteTweetModal";
+import { useDeleteComment } from "../features/deleteComment/hooks/useDeleteComment";
+import { SelectTweetType } from "../features/Profile/components/SelectTweetType";
+import { MyCommentList } from "../features/Profile/components/MyCommentList";
+import { DeleteCommentModal } from "../features/deleteComment/components/DeleteCommentModal";
 
 export const Profile = () => {
   const { id } = useParams();
@@ -24,7 +28,8 @@ export const Profile = () => {
   const [tweets, setTweets] = useState([]);
   const [paginate, setPaginate] = useState({});
   const [isOpen, setIsOpen] = useState(false);
-  const [isTweetDeleteOpen, setIsTweetDeleteOpen] = useState(false);
+  const [isComment, setIsComment] = useState(false);
+  const [comments, setComments] = useState([]);
   const {
     editProfile,
     setEditProfile,
@@ -38,17 +43,34 @@ export const Profile = () => {
     updateProfile,
   } = useProfile();
   const { tweetDateFormat } = useTweetDisplay();
-  const { deleteTweetId, setDeleteTweetId, putDeleteTweet } = useDeleteTweet();
+  const {
+    deleteTweetId,
+    setDeleteTweetId,
+    isTweetDeleteOpen,
+    setIsTweetDeleteOpen,
+    openTweetDeleteModal,
+    closeTweetDeleteModal,
+    putDeleteTweet,
+  } = useDeleteTweet();
+  const {
+    deleteCommentId,
+    setDeleteCommentId,
+    isCommentDeleteOpen,
+    setIsCommentDeleteOpen,
+    openCommentDeleteModal,
+    closeCommentDeleteModal,
+    sendDeleteComment,
+  } = useDeleteComment();
 
   useEffect(() => {
     init();
-  }, []);
+  }, [isComment]);
 
   const init = async (page) => {
     try {
-      const res = await getProfile({ id, page });
+      const res = await getProfile({ id, page, isComment });
       setUser(res.user);
-      setTweets(res.tweets);
+      res.tweets ? setTweets(res.tweets) : setComments(res.comments);
       setPaginate(res.pagination);
       setIsLoading(false);
     } catch (e) {
@@ -72,16 +94,6 @@ export const Profile = () => {
   const closeModal = () => {
     setIsOpen(false);
     setEditProfile({});
-  };
-
-  const openTweetDeleteModal = (tweet_id) => {
-    setIsTweetDeleteOpen(true);
-    setDeleteTweetId(tweet_id);
-  };
-
-  const closeTweetDeleteModal = () => {
-    setIsTweetDeleteOpen(false);
-    setDeleteTweetId(null);
   };
 
   ReactModal.setAppElement("#root");
@@ -124,6 +136,22 @@ export const Profile = () => {
     }
   };
 
+  const deleteComment = async () => {
+    try {
+      await sendDeleteComment(deleteCommentId);
+      setDeleteCommentId(null);
+      setIsCommentDeleteOpen(false);
+      init();
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
+  const fetchPost = (e) => {
+    setIsComment(e.target.getAttribute("name") === "comment");
+    setIsLoading(true);
+  };
+
   return (
     <>
       {isLoading ? (
@@ -148,6 +176,13 @@ export const Profile = () => {
             />
           </ReactModal>
 
+          <ReactModal isOpen={isCommentDeleteOpen} style={customStyles}>
+            <DeleteCommentModal
+              closeCommentDeleteModal={closeCommentDeleteModal}
+              deleteComment={deleteComment}
+            />
+          </ReactModal>
+
           <ProfileHeader user={user} goBack={goBack} />
 
           <div>
@@ -160,16 +195,25 @@ export const Profile = () => {
             />
           </div>
 
-          <div className="flex border-b">
-            <div className="px-4">ポスト</div>
-          </div>
+          <SelectTweetType isComment={isComment} fetchPost={fetchPost} />
 
-          <MyTweetList
-            user={user}
-            tweets={tweets}
-            tweetDateFormat={tweetDateFormat}
-            openTweetDeleteModal={openTweetDeleteModal}
-          />
+          {isComment ? (
+            <MyCommentList
+              user={user}
+              comments={comments}
+              session={session}
+              tweetDateFormat={tweetDateFormat}
+              openCommentDeleteModal={openCommentDeleteModal}
+            />
+          ) : (
+            <MyTweetList
+              user={user}
+              tweets={tweets}
+              session={session}
+              tweetDateFormat={tweetDateFormat}
+              openTweetDeleteModal={openTweetDeleteModal}
+            />
+          )}
 
           <Pagination paginate={paginate} pageChange={pageChange} />
         </div>
