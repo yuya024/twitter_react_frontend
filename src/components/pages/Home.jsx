@@ -12,6 +12,7 @@ import { useRecoilValue } from "recoil";
 import { userState } from "../../common/store/userState";
 import { usePostingComment } from "../features/postingComment/hooks/usePostingComment";
 import { CommentModal } from "../features/postingComment/components/CommentModal";
+import { usePostingRetweet } from "../features/postingRetweet/hooks/usePostingRetweet";
 
 export const Home = () => {
   const {
@@ -30,6 +31,7 @@ export const Home = () => {
   const [isCommentOpen, setIsCommentOpen] = useState(false);
   const session = useRecoilValue(userState);
   const navigate = useNavigate();
+  const { postRetweet } = usePostingRetweet();
   const {
     commentValue,
     setCommentValue,
@@ -118,6 +120,16 @@ export const Home = () => {
     }
   };
 
+  const submitRetweet = async (e, tweet_id) => {
+    e.preventDefault();
+    try {
+      await postRetweet(tweet_id);
+      init();
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <>
       <div>
@@ -150,6 +162,7 @@ export const Home = () => {
         tweetDateFormat={tweetDateFormat}
         openCommentModal={openCommentModal}
         redirectProfile={redirectProfile}
+        submitRetweet={submitRetweet}
       />
 
       <Pagination paginate={paginate} pageChange={pageChange} />

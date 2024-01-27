@@ -1,7 +1,13 @@
 import { Link } from "react-router-dom";
 
 export const TweetList = (props) => {
-  const { tweets, tweetDateFormat, openCommentModal, redirectProfile } = props;
+  const {
+    tweets,
+    tweetDateFormat,
+    openCommentModal,
+    redirectProfile,
+    submitRetweet,
+  } = props;
 
   return (
     <>
@@ -60,17 +66,25 @@ export const TweetList = (props) => {
                       <p className="px-1 text-sm">{tweet.comment_count}</p>
                     )}
                   </div>
-                  <div className="col-span-1">
-                    <svg
-                      viewBox="0 0 24 24"
-                      width="20"
-                      height="20"
-                      aria-hidden="true"
+                  <div className="col-span-1 flex">
+                    <button
+                      disabled={tweet.retweeted_by}
+                      onClick={(e) => submitRetweet(e, tweet.id)}
                     >
-                      <g>
-                        <path d="M4.5 3.88l4.432 4.14-1.364 1.46L5.5 7.55V16c0 1.1.896 2 2 2H13v2H7.5c-2.209 0-4-1.79-4-4V7.55L1.432 9.48.068 8.02 4.5 3.88zM16.5 6H11V4h5.5c2.209 0 4 1.79 4 4v8.45l2.068-1.93 1.364 1.46-4.432 4.14-4.432-4.14 1.364-1.46 2.068 1.93V8c0-1.1-.896-2-2-2z"></path>
-                      </g>
-                    </svg>
+                      <svg
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                        className="h-5 w-5"
+                        fill={tweet.retweeted_by ? "green" : "false"}
+                      >
+                        <g>
+                          <path d="M4.5 3.88l4.432 4.14-1.364 1.46L5.5 7.55V16c0 1.1.896 2 2 2H13v2H7.5c-2.209 0-4-1.79-4-4V7.55L1.432 9.48.068 8.02 4.5 3.88zM16.5 6H11V4h5.5c2.209 0 4 1.79 4 4v8.45l2.068-1.93 1.364 1.46-4.432 4.14-4.432-4.14 1.364-1.46 2.068 1.93V8c0-1.1-.896-2-2-2z"></path>
+                        </g>
+                      </svg>
+                    </button>
+                    {tweet.retweet_count !== 0 && (
+                      <p className="px-1 text-sm">{tweet.retweet_count}</p>
+                    )}
                   </div>
                   <div className="col-span-1">
                     <svg
