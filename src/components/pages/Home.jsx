@@ -13,6 +13,7 @@ import { userState } from "../../common/store/userState";
 import { usePostingComment } from "../features/postingComment/hooks/usePostingComment";
 import { CommentModal } from "../features/postingComment/components/CommentModal";
 import { usePostingRetweet } from "../features/postingRetweet/hooks/usePostingRetweet";
+import { usePostingFavorite } from "../features/postingFavorite/hooks/usePostingFavorite";
 
 export const Home = () => {
   const {
@@ -32,6 +33,7 @@ export const Home = () => {
   const session = useRecoilValue(userState);
   const navigate = useNavigate();
   const { postRetweet } = usePostingRetweet();
+  const { postFavorite } = usePostingFavorite();
   const {
     commentValue,
     setCommentValue,
@@ -130,6 +132,16 @@ export const Home = () => {
     }
   };
 
+  const submitFavorite = async (e, tweet_id) => {
+    e.preventDefault();
+    try {
+      await postFavorite(tweet_id);
+      init();
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <>
       <div>
@@ -163,6 +175,7 @@ export const Home = () => {
         openCommentModal={openCommentModal}
         redirectProfile={redirectProfile}
         submitRetweet={submitRetweet}
+        submitFavorite={submitFavorite}
       />
 
       <Pagination paginate={paginate} pageChange={pageChange} />
