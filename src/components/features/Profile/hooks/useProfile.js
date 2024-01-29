@@ -54,13 +54,7 @@ export const useProfile = () => {
       ...(isComment ? { is_comment: isComment } : {}),
     };
     return axios
-      .get(
-        `${user}/${id}`,
-        { params: body },
-        {
-          headers: authHeader,
-        }
-      )
+      .get(`${user}/${id}`, { params: body, headers: authHeader })
       .then((res) => {
         return res.data;
       })
