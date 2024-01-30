@@ -6,7 +6,7 @@ import { useUser } from "../../../../common/hooks/useUser";
 
 export const usePostFollow = () => {
   const { authHeader } = useUser();
-  const [isFollowed, setIsFollowed] = useState();
+  const [follow, setFollow] = useState();
 
   const postFollow = (userId) => {
     return axios
@@ -26,5 +26,5 @@ export const usePostFollow = () => {
       });
   };
 
-  return { isFollowed, setIsFollowed, postFollow };
+  return { follow, setFollow, postFollow };
 };
