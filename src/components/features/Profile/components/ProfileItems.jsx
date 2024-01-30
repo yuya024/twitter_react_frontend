@@ -1,5 +1,13 @@
 export const ProfileItems = (props) => {
-  const { user, session, birthdateFormat, dateUsed, openModal } = props;
+  const {
+    user,
+    session,
+    isFollowed,
+    submitFollow,
+    birthdateFormat,
+    dateUsed,
+    openModal,
+  } = props;
 
   return (
     <>
@@ -22,8 +30,15 @@ export const ProfileItems = (props) => {
               >
                 プロフィールを編集
               </button>
-            ) : (
+            ) : isFollowed ? (
               <button className="cursor-pointer font-bold py-2 px-4 rounded-full border">
+                フォロー中
+              </button>
+            ) : (
+              <button
+                onClick={submitFollow}
+                className="cursor-pointer font-bold text-white bg-black py-2 px-4 rounded-full border"
+              >
                 フォロー
               </button>
             )}
