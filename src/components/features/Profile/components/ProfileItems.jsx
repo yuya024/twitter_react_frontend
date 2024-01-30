@@ -2,8 +2,9 @@ export const ProfileItems = (props) => {
   const {
     user,
     session,
-    isFollowed,
+    follow,
     submitFollow,
+    submitUnfollow,
     birthdateFormat,
     dateUsed,
     openModal,
@@ -30,8 +31,11 @@ export const ProfileItems = (props) => {
               >
                 プロフィールを編集
               </button>
-            ) : isFollowed ? (
-              <button className="cursor-pointer font-bold py-2 px-4 rounded-full border">
+            ) : follow.is_followed ? (
+              <button
+                onClick={submitUnfollow}
+                className="cursor-pointer font-bold py-2 px-4 rounded-full border"
+              >
                 フォロー中
               </button>
             ) : (
@@ -125,8 +129,10 @@ export const ProfileItems = (props) => {
             </div>
           </div>
           <div className="flex">
-            <p className="mr-5 text-sm text-gray-600">フォロー中</p>
-            <p className="text-sm text-gray-600">フォロワー</p>
+            <p className="mr-5 text-sm text-gray-600">
+              {`${follow.following_count}フォロー中`}
+            </p>
+            <p className="text-sm text-gray-600">{`${follow.followers_count}フォロワー`}</p>
           </div>
         </div>
       </div>

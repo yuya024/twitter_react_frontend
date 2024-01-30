@@ -19,6 +19,7 @@ import { SelectTweetType } from "../features/Profile/components/SelectTweetType"
 import { MyCommentList } from "../features/Profile/components/MyCommentList";
 import { DeleteCommentModal } from "../features/deleteComment/components/DeleteCommentModal";
 import { usePostFollow } from "../features/postFollow/hooks/usePostFollow";
+import { useDeleteFollow } from "../features/deleteFollow/hooks/useDeleteFollow";
 
 export const Profile = () => {
   const { id } = useParams();
@@ -31,7 +32,8 @@ export const Profile = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isComment, setIsComment] = useState(false);
   const [comments, setComments] = useState([]);
-  const { isFollowed, setIsFollowed, postFollow } = usePostFollow();
+  const { follow, setFollow, postFollow } = usePostFollow();
+  const { deleteFollow } = useDeleteFollow();
   const {
     editProfile,
     setEditProfile,
@@ -73,7 +75,7 @@ export const Profile = () => {
       const res = await getProfile({ id, page, isComment });
       setUser(res.user);
       res.tweets ? setTweets(res.tweets) : setComments(res.comments);
-      setIsFollowed(res.followed);
+      setFollow(res.follow);
       setPaginate(res.pagination);
       setIsLoading(false);
     } catch (e) {
@@ -164,6 +166,16 @@ export const Profile = () => {
     }
   };
 
+  const submitUnfollow = async () => {
+    try {
+      const res = await deleteFollow(id);
+      console.log(res);
+      init();
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <>
       {isLoading ? (
@@ -201,8 +213,9 @@ export const Profile = () => {
             <ProfileItems
               user={user}
               session={session}
-              isFollowed={isFollowed}
+              follow={follow}
               submitFollow={submitFollow}
+              submitUnfollow={submitUnfollow}
               birthdateFormat={birthdateFormat}
               dateUsed={dateUsed}
               openModal={openModal}
