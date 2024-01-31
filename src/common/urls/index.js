@@ -9,3 +9,4 @@ export const tweetImage = `${DEFAULT_API_LOCALHOST}/images`;
 export const user = `${DEFAULT_API_LOCALHOST}/users`;
 export const profile = `${DEFAULT_API_LOCALHOST}/profile`;
 export const comment = `${DEFAULT_API_LOCALHOST}/comments`;
+export const notification = `${DEFAULT_API_LOCALHOST}/notifications`;
