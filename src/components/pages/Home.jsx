@@ -111,10 +111,9 @@ export const Home = () => {
     e.preventDefault();
     const params = createCommentParams();
     try {
-      const res = await postComment(params);
-      setTweets(res.data);
-      setPaginate(res.pagination);
+      await postComment(params);
       closeCommentModal();
+      init();
       toast.success("コメントを投稿しました");
     } catch (e) {
       toast.error("コメントの投稿に失敗しました");
