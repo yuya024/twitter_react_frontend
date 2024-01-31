@@ -1,22 +1,16 @@
 import axios from "axios";
-import { useState } from "react";
 
 import { user } from "../../../../common/urls";
 import { useUser } from "../../../../common/hooks/useUser";
 
-export const usePostFollow = () => {
+export const useDeleteFollow = () => {
   const { authHeader } = useUser();
-  const [follow, setFollow] = useState();
 
-  const postFollow = (userId) => {
+  const deleteFollow = (userId) => {
     return axios
-      .post(
-        `${user}/${userId}/follow`,
-        { user_id: userId },
-        {
-          headers: authHeader,
-        }
-      )
+      .delete(`${user}/${userId}/unfollow`, {
+        headers: authHeader,
+      })
       .then((res) => {
         return res.data;
       })
@@ -26,5 +20,5 @@ export const usePostFollow = () => {
       });
   };
 
-  return { follow, setFollow, postFollow };
+  return { deleteFollow };
 };
