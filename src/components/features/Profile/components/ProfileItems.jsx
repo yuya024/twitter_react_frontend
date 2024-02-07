@@ -5,6 +5,7 @@ export const ProfileItems = (props) => {
     follow,
     submitFollow,
     submitUnfollow,
+    createGroup,
     birthdateFormat,
     dateUsed,
     openModal,
@@ -23,29 +24,46 @@ export const ProfileItems = (props) => {
               className="-mt-20 w-36 h-36 rounded-full p-1"
             ></img>
           </div>
-          <div>
-            {user.id === session.user.id ? (
-              <button
-                onClick={openModal}
-                className="cursor-pointer font-bold py-2 px-4 rounded-full border"
+          <div className="flex items-center">
+            <button
+              className="mr-4 border rounded-full p-2"
+              onClick={createGroup}
+            >
+              <svg
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+                className="w-5 h-5"
+                style={{ color: "rgb(15, 20, 25)" }}
               >
-                プロフィールを編集
-              </button>
-            ) : follow.is_followed ? (
-              <button
-                onClick={submitUnfollow}
-                className="cursor-pointer font-bold py-2 px-4 rounded-full border"
-              >
-                フォロー中
-              </button>
-            ) : (
-              <button
-                onClick={submitFollow}
-                className="cursor-pointer font-bold text-white bg-black py-2 px-4 rounded-full border"
-              >
-                フォロー
-              </button>
-            )}
+                <g>
+                  <path d="M1.998 5.5c0-1.381 1.119-2.5 2.5-2.5h15c1.381 0 2.5 1.119 2.5 2.5v13c0 1.381-1.119 2.5-2.5 2.5h-15c-1.381 0-2.5-1.119-2.5-2.5v-13zm2.5-.5c-.276 0-.5.224-.5.5v2.764l8 3.638 8-3.636V5.5c0-.276-.224-.5-.5-.5h-15zm15.5 5.463l-8 3.636-8-3.638V18.5c0 .276.224.5.5.5h15c.276 0 .5-.224.5-.5v-8.037z"></path>
+                </g>
+              </svg>
+            </button>
+            <div>
+              {user.id === session.user.id ? (
+                <button
+                  onClick={openModal}
+                  className="cursor-pointer font-bold py-2 px-4 rounded-full border"
+                >
+                  プロフィールを編集
+                </button>
+              ) : follow.is_followed ? (
+                <button
+                  onClick={submitUnfollow}
+                  className="cursor-pointer font-bold py-2 px-4 rounded-full border"
+                >
+                  フォロー中
+                </button>
+              ) : (
+                <button
+                  onClick={submitFollow}
+                  className="cursor-pointer font-bold text-white bg-black py-2 px-4 rounded-full border"
+                >
+                  フォロー
+                </button>
+              )}
+            </div>
           </div>
         </div>
         <div>

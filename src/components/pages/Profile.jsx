@@ -20,6 +20,7 @@ import { MyCommentList } from "../features/Profile/components/MyCommentList";
 import { DeleteCommentModal } from "../features/deleteComment/components/DeleteCommentModal";
 import { usePostFollow } from "../features/postFollow/hooks/usePostFollow";
 import { useDeleteFollow } from "../features/deleteFollow/hooks/useDeleteFollow";
+import { useCreateGroup } from "../features/group/hooks/useCreateGroup";
 
 export const Profile = () => {
   const { id } = useParams();
@@ -34,6 +35,7 @@ export const Profile = () => {
   const [comments, setComments] = useState([]);
   const { follow, setFollow, postFollow } = usePostFollow();
   const { deleteFollow } = useDeleteFollow();
+  const { postGroup } = useCreateGroup();
   const {
     editProfile,
     setEditProfile,
@@ -176,6 +178,15 @@ export const Profile = () => {
     }
   };
 
+  const createGroup = async () => {
+    try {
+      await postGroup(id);
+      navigate("/groups");
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <>
       {isLoading ? (
@@ -216,6 +227,7 @@ export const Profile = () => {
               follow={follow}
               submitFollow={submitFollow}
               submitUnfollow={submitUnfollow}
+              createGroup={createGroup}
               birthdateFormat={birthdateFormat}
               dateUsed={dateUsed}
               openModal={openModal}

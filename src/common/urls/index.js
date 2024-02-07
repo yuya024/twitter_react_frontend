@@ -10,3 +10,4 @@ export const user = `${DEFAULT_API_LOCALHOST}/users`;
 export const profile = `${DEFAULT_API_LOCALHOST}/profile`;
 export const comment = `${DEFAULT_API_LOCALHOST}/comments`;
 export const notification = `${DEFAULT_API_LOCALHOST}/notifications`;
+export const group = `${DEFAULT_API_LOCALHOST}/groups`;
