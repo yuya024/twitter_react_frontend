@@ -13,6 +13,7 @@ import { userState } from "./common/store/userState";
 import { Layout } from "./components/pages/Layout";
 import { TweetDetail } from "./components/pages/TweetDetail";
 import { Profile } from "./components/pages/Profile";
+import { Notification } from "./components/pages/Notification";
 
 function App() {
   const [user, setUser] = useRecoilState(userState);
@@ -65,6 +66,7 @@ function App() {
         <Route element={<RouteLoginGuard />}>
           <Route element={<Layout />}>
             <Route path="/home" element={<Home />} />
+            <Route path="/notifications" element={<Notification />} />
             <Route path="/tweets">
               <Route path=":id" element={<TweetDetail />} />
             </Route>
