@@ -14,6 +14,8 @@ import { Layout } from "./components/pages/Layout";
 import { TweetDetail } from "./components/pages/TweetDetail";
 import { Profile } from "./components/pages/Profile";
 import { Notification } from "./components/pages/Notification";
+import { Group } from "./components/pages/Group";
+import { Message } from "./components/pages/Message";
 
 function App() {
   const [user, setUser] = useRecoilState(userState);
@@ -67,6 +69,9 @@ function App() {
           <Route element={<Layout />}>
             <Route path="/home" element={<Home />} />
             <Route path="/notifications" element={<Notification />} />
+            <Route path="/groups" element={<Group />}>
+              <Route path="/groups/:id/messages" element={<Message />} />
+            </Route>
             <Route path="/tweets">
               <Route path=":id" element={<TweetDetail />} />
             </Route>

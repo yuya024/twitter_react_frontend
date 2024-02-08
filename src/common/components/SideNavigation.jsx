@@ -15,7 +15,7 @@ export const SideNavigation = () => {
         </svg>
       </div>
       <div className="flex flex-col h-4/5">
-        <a href="#" className="mb-4">
+        <Link to={`/home`} className="mb-4">
           <div className="flex items-center">
             <div>
               <svg viewBox="0 0 24 24" aria-hidden="true" className="h-10">
@@ -24,9 +24,9 @@ export const SideNavigation = () => {
                 </g>
               </svg>
             </div>
-            <div className="text-lg  ml-6">ホーム</div>
+            <div className="text-lg ml-6">ホーム</div>
           </div>
-        </a>
+        </Link>
         <Link to={`/notifications`} className="mb-4">
           <div className="flex items-center">
             <div>
@@ -39,7 +39,7 @@ export const SideNavigation = () => {
             <div className="text-lg  ml-6">通知</div>
           </div>
         </Link>
-        <a href="#" className="mb-4">
+        <Link to={`groups`} className="mb-4">
           <div className="flex items-center">
             <div>
               <svg viewBox="0 0 24 24" aria-hidden="true" className="h-10">
@@ -50,7 +50,7 @@ export const SideNavigation = () => {
             </div>
             <div className="text-lg  ml-6">メッセージ</div>
           </div>
-        </a>
+        </Link>
         <a href="#" className="mb-4">
           <div className="flex items-center">
             <div>
