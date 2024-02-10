@@ -51,7 +51,7 @@ export const SideNavigation = () => {
             <div className="text-lg  ml-6">メッセージ</div>
           </div>
         </Link>
-        <a href="#" className="mb-4">
+        <Link to={`bookmarks`} className="mb-4">
           <div className="flex items-center">
             <div>
               <svg viewBox="0 0 24 24" aria-hidden="true" className="h-10">
@@ -62,7 +62,7 @@ export const SideNavigation = () => {
             </div>
             <div className="text-lg  ml-6">ブックマーク</div>
           </div>
-        </a>
+        </Link>
         <Link to={`/users/${user.id}`} className="mb-4">
           <div className="flex items-center">
             <div>
