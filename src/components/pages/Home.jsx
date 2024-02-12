@@ -14,6 +14,8 @@ import { usePostingComment } from "../features/postingComment/hooks/usePostingCo
 import { CommentModal } from "../features/postingComment/components/CommentModal";
 import { usePostingRetweet } from "../features/postingRetweet/hooks/usePostingRetweet";
 import { usePostingFavorite } from "../features/postingFavorite/hooks/usePostingFavorite";
+import { usePostingBookmark } from "../features/bookmark/hooks/usePostingBookmark";
+import { useDeleteBookmark } from "../features/bookmark/hooks/useDeleteBookmark";
 
 export const Home = () => {
   const {
@@ -34,6 +36,8 @@ export const Home = () => {
   const navigate = useNavigate();
   const { postRetweet } = usePostingRetweet();
   const { postFavorite } = usePostingFavorite();
+  const { postBookmark } = usePostingBookmark();
+  const { deleteBookmark } = useDeleteBookmark();
   const {
     commentValue,
     setCommentValue,
@@ -141,6 +145,24 @@ export const Home = () => {
     }
   };
 
+  const submitBookmark = async (e, tweet) => {
+    e.preventDefault();
+    try {
+      tweet.bookmarked_by
+        ? await toast.promise(deleteBookmark(tweet.login_user_bookmark.id), {
+            success: "ブックマークから削除しました",
+            error: "ブックマークの削除に失敗しました",
+          })
+        : await toast.promise(postBookmark(tweet.id), {
+            success: "ブックマークへ追加しました",
+            error: "ブックマークの追加に失敗しました",
+          });
+      init();
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
     <>
       <div>
@@ -175,6 +197,7 @@ export const Home = () => {
         redirectProfile={redirectProfile}
         submitRetweet={submitRetweet}
         submitFavorite={submitFavorite}
+        submitBookmark={submitBookmark}
       />
 
       <Pagination paginate={paginate} pageChange={pageChange} />

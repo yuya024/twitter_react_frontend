@@ -16,6 +16,10 @@ import { Profile } from "./components/pages/Profile";
 import { Notification } from "./components/pages/Notification";
 import { Group } from "./components/pages/Group";
 import { Message } from "./components/pages/Message";
+import { Bookmark } from "./components/pages/Bookmark";
+import { Folder } from "./components/pages/Folder";
+import { BookmarkLayout } from "./components/pages/BookmarkLayout";
+import { BookmarkFolder } from "./components/pages/BookmarkFolder";
 
 function App() {
   const [user, setUser] = useRecoilState(userState);
@@ -78,6 +82,14 @@ function App() {
             <Route path="/users">
               <Route path=":id" element={<Profile />} />
             </Route>
+            <Route element={<BookmarkLayout />}>
+              <Route path="/bookmarks" element={<Bookmark />} />
+              <Route path="/folders" element={<Folder />} />
+            </Route>
+            <Route
+              path="/folders/:id/bookmark_folders"
+              element={<BookmarkFolder />}
+            />
           </Route>
         </Route>
       </Routes>
