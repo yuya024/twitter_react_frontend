@@ -1,12 +1,40 @@
 import { useRecoilValue } from "recoil";
-import { userState } from "../store/userState";
+import ReactModal from "react-modal";
 import { Link } from "react-router-dom";
+
+import { userState } from "../store/userState";
+import { useDeleteAccount } from "../../components/features/deleteAccount/hooks/useDeleteAccount";
+import { AccountDeletionModal } from "../../components/features/deleteAccount/components/AccountDeletionModal";
 
 export const SideNavigation = () => {
   const { user } = useRecoilValue(userState);
+  const { isOpenAccountModal, setIsOpenAccountModal, hundleAccountDeletion } =
+    useDeleteAccount();
+
+  ReactModal.setAppElement("#root");
+  const customStyles = {
+    content: {
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      padding: "0px",
+      transform: "translate(-50%, -50%)",
+      width: "300px",
+      height: "300px",
+    },
+  };
 
   return (
     <div className="h-screen sticky top-0 py-4 px-12 border-r-2">
+      <ReactModal isOpen={isOpenAccountModal} style={customStyles}>
+        <AccountDeletionModal
+          setIsOpenAccountModal={setIsOpenAccountModal}
+          hundleAccountDeletion={hundleAccountDeletion}
+        />
+      </ReactModal>
+
       <div className="mb-4">
         <svg viewBox="0 0 28 28" aria-hidden="true" className="h-20">
           <g>
@@ -75,7 +103,7 @@ export const SideNavigation = () => {
             <div className="text-lg  ml-6">プロフィール</div>
           </div>
         </Link>
-        <a href="#" className="mb-4">
+        <button className="mb-4" onClick={() => setIsOpenAccountModal(true)}>
           <div className="flex items-center">
             <div>
               <svg viewBox="0 0 520 520" aria-hidden="true" className="h-10">
@@ -95,7 +123,7 @@ export const SideNavigation = () => {
             </div>
             <div className="text-lg  ml-6">退会</div>
           </div>
-        </a>
+        </button>
       </div>
 
       <div className="flex items-center">
