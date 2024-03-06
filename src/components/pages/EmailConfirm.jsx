@@ -7,9 +7,9 @@ export const EmailConfirm = () => {
         <h1 className="my-4 text-3xl font-bold tracking-tight text-gray-900 sm:text-3xl">
           認証メールを送信しました。
         </h1>
-        <a href={emailLink} className="text-sm font-semibold text-blue-900">
+        {/* <a href={emailLink} className="text-sm font-semibold text-blue-900">
           こちらからご確認ください<span aria-hidden="true">&rarr;</span>
-        </a>
+        </a> */}
       </div>
     </main>
   );
