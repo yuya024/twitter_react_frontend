@@ -2,7 +2,7 @@ import { Link, Route, Routes, useNavigate, Outlet } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import "./App.css";
 
-import { Signup } from "./components/pages/signup";
+import { Signup } from "./components/pages/Signup";
 import { EmailConfirm } from "./components/pages/EmailConfirm";
 import { Top } from "./components/pages/Top";
 import { Signin } from "./components/pages/Signin";

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-import { SignupForm } from "../features/signup/components/signupForm";
+import { SignupForm } from "../features/signup/components/SignupForm";
 import { useSignup } from "../features/signup/hooks/useSignup";
 
 export const Signup = () => {
