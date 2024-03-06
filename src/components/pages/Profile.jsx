@@ -8,7 +8,7 @@ import { Loading } from "../../common/components/Loading";
 import { useProfile } from "../features/Profile/hooks/useProfile";
 import { useTweetDisplay } from "../features/displayTweet/hooks/useTweetDisplay";
 import { Pagination } from "../../common/components/Pagination";
-import { MyTweetList } from "../features/Profile/components/myTweetList";
+import { MyTweetList } from "../features/Profile/components/MyTweetList";
 import { ProfileItems } from "../features/Profile/components/ProfileItems";
 import { ProfileHeader } from "../features/Profile/components/ProfileHeader";
 import { ProfileModal } from "../features/Profile/components/ProfileModal";
